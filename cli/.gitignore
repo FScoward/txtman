@@ -1,0 +1,43 @@
+# Compiled output
+*.class
+*.bin
+tmp/
+out/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+
+# Logs
+logs/
+*.log
+
+# BlueJ files
+*.ctxt
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files
+*.jar
+*.war
+*.ear
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+
+# Gradle Files
+.gradle/
+.gradletasknamecache
+build/
+
+# IntelliJ IDEA Files
+*.iml
+*.iws
+*.ipr
+.idea/
+out/
+
+# Android Studio Files
+.navigation/
+
+# Kotlin
+.kotlin_metadata
