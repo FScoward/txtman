@@ -1,11 +1,11 @@
 package com.github.fscoward.txtman.cli
 
 import com.github.ajalt.clikt.core.CliktCommand
-import com.github.ajalt.clikt.parameters.options.help
-import com.github.ajalt.clikt.parameters.options.default
-import com.github.ajalt.clikt.parameters.options.option
-import com.github.ajalt.clikt.parameters.options.prompt
+import com.github.ajalt.clikt.core.subcommands
+import com.github.ajalt.clikt.parameters.options.*
 import com.github.ajalt.clikt.parameters.types.int
+import com.github.ajalt.clikt.parameters.arguments.argument
+import com.github.fscoward.txtman.cli.model.*
 
 class Hello : CliktCommand() {
     val count: Int by option().int().default(1).help("Number of greetings")
@@ -18,4 +18,18 @@ class Hello : CliktCommand() {
     }
 }
 
-fun main(args: Array<String>) = Hello().main(args)
+class AddTask: CliktCommand(name = "add", help = "Add a new task") {
+    val name by argument()
+    override fun run() {
+        val newTask = Task(name)
+        echo("add task ${newTask.id}, ${newTask.name}, ${newTask.createdDateTime}")
+    }
+}
+
+class Task: CliktCommand() {
+    override fun run() {
+//        echo("add task")
+    }
+}
+
+fun main(args: Array<String>) = Task().subcommands(AddTask()).main(args)

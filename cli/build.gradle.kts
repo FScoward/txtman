@@ -31,6 +31,9 @@ kotlin {
         val nativeTest by getting
         nativeMain.dependencies {
             implementation("com.github.ajalt.clikt:clikt:4.2.2")
+            implementation("com.aallam.ulid:ulid-kotlin:1.3.0")
+            implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.6.0-RC.2")
+
         }
     }
 }
