@@ -18,6 +18,8 @@ data class Task(
         TimeZone.UTC
     )
 ) {
+    companion object
+
     val id: String = ULID.randomULID()
     fun toJson(): String {
         val fmt = Json { encodeDefaults = true }
