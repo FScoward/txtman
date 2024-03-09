@@ -1,5 +1,6 @@
 plugins {
     kotlin("multiplatform") version "1.9.22"
+    kotlin("plugin.serialization") version "1.9.23"
 }
 
 group = "me.fscoward"
@@ -35,6 +36,7 @@ kotlin {
             implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.6.0-RC.2")
             implementation("io.arrow-kt:arrow-core:1.2.1")
             implementation("io.arrow-kt:arrow-fx-coroutines:1.2.1")
+            implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
         }
     }
 }

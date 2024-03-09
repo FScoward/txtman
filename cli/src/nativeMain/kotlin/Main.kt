@@ -10,6 +10,7 @@ class AddTask: CliktCommand(name = "add", help = "Add a new task") {
     override fun run() {
         val newTask = Task(name)
         echo("add task ${newTask.id}, $newTask")
+        echo("add task ${newTask.toJson()}")
     }
 }
 
