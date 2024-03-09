@@ -9,6 +9,7 @@ import ulid.ULID
 data class Task(
     val name: String,
     val priority: Int = 0,
+    val status: TaskStatus = TaskStatus.TODO,
     val createdDateTime: LocalDateTime = Clock.System.now().toLocalDateTime(
         TimeZone.UTC
     )

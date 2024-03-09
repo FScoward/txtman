@@ -9,7 +9,7 @@ class AddTask: CliktCommand(name = "add", help = "Add a new task") {
     val name by argument()
     override fun run() {
         val newTask = Task(name)
-        echo("add task ${newTask.id}, ${newTask.name}, ${newTask.createdDateTime}")
+        echo("add task ${newTask.id}, $newTask")
     }
 }
 
