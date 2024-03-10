@@ -37,6 +37,7 @@ kotlin {
             implementation("io.arrow-kt:arrow-core:1.2.1")
             implementation("io.arrow-kt:arrow-fx-coroutines:1.2.1")
             implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
+            implementation("org.jetbrains.kotlinx:kotlinx-io-core:0.3.1")
         }
     }
 }

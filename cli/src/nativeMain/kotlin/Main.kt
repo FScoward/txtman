@@ -6,6 +6,11 @@ import com.github.ajalt.clikt.parameters.arguments.argument
 import com.github.ajalt.clikt.parameters.options.option
 import kotlinx.serialization.json.Json
 import com.github.fscoward.txtman.cli.model.*
+import kotlinx.io.buffered
+import kotlinx.io.files.Path
+import kotlinx.io.files.SystemFileSystem
+import kotlinx.io.readString
+
 
 class AddTask: CliktCommand(name = "add", help = "Add a new task") {
     val name by argument()
@@ -21,14 +26,13 @@ class UpdateTask: CliktCommand(name = "update") {
     val status by option()
 
     override fun run() {
-        val json = """ {"name":"aaa","priority":0,"status":"TODO","createdDateTime":"2024-03-09T15:57:15.000030","id":"01HRHYXHVRM9C92HY9CA39GWAD"}"""
-        val task = Json.decodeFromString<Task>(json)
-        val updated = task.copy(status = TaskStatus.IN_PROGRESS)
+        val json = load("./sample.json")
+        val taskList = Json.decodeFromString<TaskList>(json)
+        val updated = taskList.tasks.find { t -> t.id == id }?.let { t -> t.copy(status = TaskStatus.IN_PROGRESS) }
 
         echo("updated: $updated")
     }
 }
-
 class TaskCommand: CliktCommand() {
     override fun run() {
 //        echo("add task")
@@ -36,3 +40,7 @@ class TaskCommand: CliktCommand() {
 }
 
 fun main(args: Array<String>) = TaskCommand().subcommands(AddTask(), UpdateTask()).main(args)
+
+fun load(path: String): String {
+    return SystemFileSystem.source(Path(path)).buffered().readString()
+}
