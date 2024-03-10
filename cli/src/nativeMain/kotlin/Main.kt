@@ -28,7 +28,7 @@ class UpdateTask: CliktCommand(name = "update") {
     override fun run() {
         val json = load("./sample.json")
         val taskList = Json.decodeFromString<TaskList>(json)
-        val updated = taskList.tasks.find { t -> t.id == id }?.let { t -> t.copy(status = TaskStatus.IN_PROGRESS) }
+        val updated = taskList.tasks.find { t -> t.id == id }?.copy(status = TaskStatus.IN_PROGRESS)
 
         echo("updated: $updated")
     }
