@@ -6,6 +6,10 @@ import com.github.ajalt.clikt.parameters.arguments.argument
 import com.github.ajalt.clikt.parameters.options.option
 import kotlinx.serialization.json.Json
 import com.github.fscoward.txtman.cli.model.*
+import kotlinx.datetime.Clock
+import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
 import kotlinx.io.buffered
 import kotlinx.io.files.Path
 import kotlinx.io.files.SystemFileSystem
@@ -28,7 +32,13 @@ class UpdateTask: CliktCommand(name = "update") {
     override fun run() {
         val json = load("./sample.json")
         val taskList = Json.decodeFromString<TaskList>(json)
-        val updated = taskList.tasks.find { t -> t.id == id }?.copy(status = TaskStatus.IN_PROGRESS)
+        val updated = taskList.tasks.find { t -> t.id == id }?.let {
+            val updated = it.copy(status = TaskStatus.IN_PROGRESS)
+            // 変更のログを記録する
+            ActivityLog("update", Clock.System.now().toLocalDateTime(
+                TimeZone.UTC
+            ), updated.toJson()).write()
+        }
 
         echo("updated: $updated")
     }

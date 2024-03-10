@@ -41,3 +41,6 @@ out/
 
 # Kotlin
 .kotlin_metadata
+
+# log file
+activity.log
