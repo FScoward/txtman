@@ -38,13 +38,21 @@ class UpdateTask: CliktCommand(name = "update") {
         echo("updated: $updated")
     }
 }
+
+class ShowTaskList: CliktCommand(name = "list") {
+    override fun run() {
+        val json = load("./sample.json")
+        val taskList = Json.decodeFromString<TaskList>(json)
+        echo(taskList)
+    }
+}
 class TaskCommand: CliktCommand() {
     override fun run() {
 //        echo("add task")
     }
 }
 
-fun main(args: Array<String>) = TaskCommand().subcommands(AddTask(), UpdateTask()).main(args)
+fun main(args: Array<String>) = TaskCommand().subcommands(AddTask(), UpdateTask(), ShowTaskList()).main(args)
 
 fun load(path: String): String {
     return SystemFileSystem.source(Path(path)).buffered().readString()
