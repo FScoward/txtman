@@ -10,9 +10,10 @@ import kotlinx.io.buffered
 import kotlinx.io.files.Path
 import kotlinx.io.files.SystemFileSystem
 import kotlinx.io.readString
+import kotlinx.serialization.encodeToString
 
 
-class AddTask: CliktCommand(name = "add", help = "Add a new task") {
+class AddTask : CliktCommand(name = "add", help = "Add a new task") {
     val name by argument()
     override fun run() {
         val newTask = Task(name)
@@ -22,31 +23,50 @@ class AddTask: CliktCommand(name = "add", help = "Add a new task") {
     }
 }
 
-class UpdateTask: CliktCommand(name = "update") {
+class UpdateTask : CliktCommand(name = "update") {
     val id by argument()
     val status by option()
+
+    fun updateTaskStatus(tasks: List<Task>, id: String, newStatus: TaskStatus): List<Task> {
+        return tasks.map { task ->
+            if (task.id == id) {
+                // IDが一致するタスクのステータスを更新
+                task.copy(status = newStatus)
+            } else if (task.children.isNotEmpty()) {
+                // 子タスクが存在する場合、再帰的に処理
+                task.copy(children = updateTaskStatus(task.children, id, newStatus))
+            } else {
+                // 一致しないタスクはそのまま
+                task
+            }
+        }
+    }
 
     override fun run() {
         val json = load("./sample.json")
         val taskList = Json.decodeFromString<TaskList>(json)
-        val updated = taskList.tasks.find { t -> t.id == id }?.let {
-            val updated = it.copy(status = TaskStatus.IN_PROGRESS)
-            // 変更のログを記録する
-            ActivityLog(actionType = ActionType.UPDATE, log = updated.toJson()).write()
-        }
+        val updatedTasks = updateTaskStatus(taskList.tasks, id, TaskStatus.IN_PROGRESS)
 
-        echo("updated: $updated")
+        // 変更のログを記録する
+        ActivityLog(
+            actionType = ActionType.UPDATE, log = Json.encodeToString(
+                TaskList(updatedTasks)
+            )
+        ).write()
+
+        echo("updated: $updatedTasks")
     }
 }
 
-class ShowTaskList: CliktCommand(name = "list") {
+class ShowTaskList : CliktCommand(name = "list") {
     override fun run() {
         val json = load("./sample.json")
         val taskList = Json.decodeFromString<TaskList>(json)
         echo(taskList)
     }
 }
-class TaskCommand: CliktCommand() {
+
+class TaskCommand : CliktCommand() {
     override fun run() {
 //        echo("add task")
     }

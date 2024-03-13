@@ -16,7 +16,8 @@ data class Task(
     val status: TaskStatus = TaskStatus.TODO,
     val createdDateTime: LocalDateTime = Clock.System.now().toLocalDateTime(
         TimeZone.UTC
-    )
+    ),
+    val children: List<Task> = listOf()
 ) {
     companion object
 
