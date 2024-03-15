@@ -1,9 +1,18 @@
 package com.github.fscoward.txtman.cli.model
 
+import kotlinx.io.buffered
+import kotlinx.io.files.Path
+import kotlinx.io.files.SystemFileSystem
+import kotlinx.io.readString
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class TaskList(val tasks: List<Task>) {
+    companion object {
+        fun load(path: String): String {
+            return SystemFileSystem.source(Path(path)).buffered().readString()
+        }
+    }
     fun convertTasksToBulletList(tasks: List<Task>, indentLevel: Int = 0): String {
         val indent = "  ".repeat(indentLevel)
         return tasks.joinToString(separator = "\n") { task ->

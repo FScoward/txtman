@@ -3,7 +3,6 @@ package com.github.fscoward.txtman.cli.cmd
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.parameters.arguments.argument
 import com.github.ajalt.clikt.parameters.options.option
-import com.github.fscoward.txtman.cli.load
 import com.github.fscoward.txtman.cli.model.*
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
@@ -28,7 +27,7 @@ class UpdateTask : CliktCommand(name = "update") {
     }
 
     override fun run() {
-        val json = load("./sample.json")
+        val json = TaskList.load("./sample.json")
         val taskList = Json.decodeFromString<TaskList>(json)
         val updatedTasks = updateTaskStatus(taskList.tasks, id, TaskStatus.IN_PROGRESS)
 
