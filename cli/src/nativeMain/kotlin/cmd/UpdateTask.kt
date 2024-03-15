@@ -11,7 +11,7 @@ class UpdateTask : CliktCommand(name = "update") {
     val id by argument()
     val status by option()
 
-    fun updateTaskStatus(tasks: List<Task>, id: String, newStatus: TaskStatus): List<Task> {
+    private fun updateTaskStatus(tasks: List<Task>, id: String, newStatus: TaskStatus): List<Task> {
         return tasks.map { task ->
             if (task.id == id) {
                 // IDが一致するタスクのステータスを更新
@@ -36,7 +36,7 @@ class UpdateTask : CliktCommand(name = "update") {
                 TaskList(updatedTasks)
             )
         ).write()
-
+        TaskList(updatedTasks).save()
         echo("updated: $updatedTasks")
     }
 }
