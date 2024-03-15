@@ -4,6 +4,7 @@ import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.subcommands
 import com.github.ajalt.clikt.parameters.arguments.argument
 import com.github.ajalt.clikt.parameters.options.option
+import com.github.fscoward.txtman.cli.cmd.AddTask
 import kotlinx.serialization.json.Json
 import com.github.fscoward.txtman.cli.model.*
 import kotlinx.io.buffered
@@ -12,16 +13,6 @@ import kotlinx.io.files.SystemFileSystem
 import kotlinx.io.readString
 import kotlinx.serialization.encodeToString
 
-
-class AddTask : CliktCommand(name = "add", help = "Add a new task") {
-    val name by argument()
-    override fun run() {
-        val newTask = Task(name)
-        ActivityLog(actionType = ActionType.ADD, log = newTask.toJson()).write()
-        echo("add task ${newTask.id}, $newTask")
-        echo("add task ${newTask.toJson()}")
-    }
-}
 
 class UpdateTask : CliktCommand(name = "update") {
     val id by argument()
