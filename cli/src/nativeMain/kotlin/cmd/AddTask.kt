@@ -4,8 +4,6 @@ import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.parameters.arguments.argument
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.fscoward.txtman.cli.model.*
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
 
 class AddTask : CliktCommand(name = "add", help = "Add a new task") {
     val name by argument()
