@@ -19,11 +19,12 @@ data class Task(
     ),
     val children: List<Task> = listOf()
 ) {
-    companion object
+    companion object {
+        private val jsonFormatter = Json { encodeDefaults = true }
+    }
 
     val id: String = ULID.randomULID()
     fun toJson(): String {
-        val fmt = Json { encodeDefaults = true }
-        return fmt.encodeToString(this)
+        return jsonFormatter.encodeToString(this)
     }
 }
