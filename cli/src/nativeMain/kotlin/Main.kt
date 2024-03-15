@@ -5,6 +5,7 @@ import com.github.ajalt.clikt.core.subcommands
 import com.github.ajalt.clikt.parameters.arguments.argument
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.fscoward.txtman.cli.cmd.AddTask
+import com.github.fscoward.txtman.cli.cmd.ShowTaskList
 import kotlinx.serialization.json.Json
 import com.github.fscoward.txtman.cli.model.*
 import kotlinx.io.buffered
@@ -46,14 +47,6 @@ class UpdateTask : CliktCommand(name = "update") {
         ).write()
 
         echo("updated: $updatedTasks")
-    }
-}
-
-class ShowTaskList : CliktCommand(name = "list") {
-    override fun run() {
-        val json = load("./sample.json")
-        val taskList = Json.decodeFromString<TaskList>(json)
-        echo(taskList)
     }
 }
 
