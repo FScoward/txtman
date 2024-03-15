@@ -5,12 +5,18 @@ import kotlinx.io.files.Path
 import kotlinx.io.files.SystemFileSystem
 import kotlinx.io.readString
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.Json
 
 @Serializable
 data class TaskList(val tasks: List<Task>) {
     companion object {
-        fun load(path: String): String {
+        fun read(path: String): String {
             return SystemFileSystem.source(Path(path)).buffered().readString()
+        }
+
+        fun load(): TaskList {
+            val json = TaskList.read("./sample.json")
+            return Json.decodeFromString<TaskList>(json)
         }
     }
     fun convertTasksToBulletList(tasks: List<Task>, indentLevel: Int = 0): String {

@@ -6,7 +6,7 @@ import kotlinx.serialization.json.Json
 
 class ShowTaskList : CliktCommand(name = "list") {
     override fun run() {
-        val json = TaskList.load("./sample.json")
+        val json = TaskList.read("./sample.json")
         val taskList = Json.decodeFromString<TaskList>(json)
         echo(taskList)
     }

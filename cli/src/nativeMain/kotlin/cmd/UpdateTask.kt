@@ -27,8 +27,7 @@ class UpdateTask : CliktCommand(name = "update") {
     }
 
     override fun run() {
-        val json = TaskList.load("./sample.json")
-        val taskList = Json.decodeFromString<TaskList>(json)
+        val taskList = TaskList.load()
         val updatedTasks = updateTaskStatus(taskList.tasks, id, TaskStatus.IN_PROGRESS)
 
         // 変更のログを記録する
