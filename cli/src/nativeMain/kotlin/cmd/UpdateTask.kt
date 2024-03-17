@@ -17,7 +17,7 @@ class UpdateTask : CliktCommand(name = "update") {
         "--done" to TaskStatus.DONE
     ).default(TaskStatus.IN_PROGRESS)
 
-    private fun updateTaskStatus(tasks: List<Task>, id: String, newStatus: TaskStatus): List<Task> {
+    private fun updateTaskStatus(tasks: List<Task>, id: TaskID, newStatus: TaskStatus): List<Task> {
         return tasks.map { task ->
             if (task.id == id) {
                 // IDが一致するタスクのステータスを更新
@@ -34,7 +34,7 @@ class UpdateTask : CliktCommand(name = "update") {
 
     override fun run() {
         val taskList = TaskList.load()
-        val updatedTasks = updateTaskStatus(taskList.tasks, id, status)
+        val updatedTasks = updateTaskStatus(taskList.tasks, TaskID(id), status)
 
         // 変更のログを記録する
         ActivityLog(

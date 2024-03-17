@@ -21,11 +21,19 @@ data class TaskList(val tasks: List<Task>) {
             val json = TaskList.read("./sample.json")
             return Json.decodeFromString<TaskList>(json)
         }
+        // 再帰的に特定のIDを持つタスクを探すヘルパーメソッド
+        fun findTaskById(tasks: List<Task>, id: TaskID): Task? {
+            tasks.forEach { task ->
+                if (task.id == id) return task
+                findTaskById(task.children, id)?.let { return it }
+            }
+            return null
+        }
     }
     fun convertTasksToBulletList(tasks: List<Task>, indentLevel: Int = 0): String {
         val indent = "  ".repeat(indentLevel)
         return tasks.joinToString(separator = "\n") { task ->
-            "$indent- ${task.id}, name: ${task.name}, priority: ${task.priority}, status: ${task.status}, createdDateTime: ${task.createdDateTime}" +
+            "$indent- ${task.id.value}, name: ${task.name}, priority: ${task.priority}, status: ${task.status}, createdDateTime: ${task.createdDateTime}" +
                     if (task.children.isNotEmpty()) "\n${convertTasksToBulletList(task.children, indentLevel + 1)}" else ""
         }
     }
@@ -42,3 +50,4 @@ fun TaskList.save() {
     buffer.transferTo(sink)
     sink.flush()
 }
+

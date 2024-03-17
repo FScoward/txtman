@@ -15,7 +15,7 @@ class AddTask : CliktCommand(name = "add", help = "Add a new task") {
         val newTask = Task(name)
         // 親タスクIDが指定されている場合、そのタスクを探して子タスクリストに追加
         if (parentTaskId != null) {
-            val updatedTasks = taskList.tasks.addSubTask(parentTaskId!!, newTask)
+            val updatedTasks = taskList.tasks.addSubTask(TaskID(parentTaskId!!), newTask)
             TaskList(updatedTasks).save()
             echo("Subtask added successfully under parent task ID: $parentTaskId")
         } else {
@@ -29,7 +29,7 @@ class AddTask : CliktCommand(name = "add", help = "Add a new task") {
 
         echo("add task ${newTask.toJson()}")
     }
-    private fun List<Task>.addSubTask(parentId: String, newTask: Task): List<Task> {
+    private fun List<Task>.addSubTask(parentId: TaskID, newTask: Task): List<Task> {
         return map { task ->
             if (task.id == parentId) {
                 task.copy(children = task.children + newTask)
