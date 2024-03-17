@@ -17,7 +17,6 @@ data class DailyJournalsMap(
     val dailyJournals: Map<LocalDate, ImmutableSet<TaskID>>
 )
 
-
 object DailyJournalsMapSerializer : KSerializer<DailyJournalsMap> {
     override val descriptor: SerialDescriptor = buildClassSerialDescriptor("DailyJournalsMap")
 
