@@ -32,16 +32,8 @@ class AddJournalCommand : CliktCommand(name = "addJournal") {
         TaskList.findTaskById(TaskList.load().tasks, targetTaskId)
             ?: throw IllegalArgumentException("target is not exists. task id = $id")
 
-        val path = Path("./journal.json")
-        val journalFileExists = SystemFileSystem.exists(path)
-
         // journalに今日日付のDailyJournalを追加する
-        val journal: Journal = if (journalFileExists) {
-            val journalJson: String = SystemFileSystem.source(path).buffered().readString()
-            Json.decodeFromString<Journal>(journalJson)
-        } else {
-            Journal(DailyJournalsMap(emptyMap()))
-        }
+        val journal: Journal = Journal.load()
 
         // タスクを追加する
         val existingTaskID: ImmutableSet<TaskID> = journal.dailyJournalsMap.dailyJournals.get(localDate) ?: run {
