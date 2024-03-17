@@ -5,6 +5,7 @@ import kotlinx.collections.immutable.persistentSetOf
 import kotlinx.datetime.LocalDate
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.SerializationException
 import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.descriptors.buildClassSerialDescriptor
 import kotlinx.serialization.encoding.Decoder
@@ -21,8 +22,18 @@ object DailyJournalsMapSerializer : KSerializer<DailyJournalsMap> {
     override val descriptor: SerialDescriptor = buildClassSerialDescriptor("DailyJournalsMap")
 
     override fun serialize(encoder: Encoder, value: DailyJournalsMap) {
-        // ここではserializeメソッドの実装にフォーカスしていませんが、必要に応じて実装してください。
+        val jsonEncoder = encoder as? JsonEncoder ?: throw SerializationException("This serializer can be used with JSON format only.")
+
+        val jsonMap = value.dailyJournals.entries.associate { (date, taskIDs) ->
+            date.toString() to JsonArray(taskIDs.map { taskId ->
+                JsonObject(mapOf("value" to JsonPrimitive(taskId.value)))
+            })
+        }
+
+        val jsonObject = JsonObject(jsonMap)
+        jsonEncoder.encodeJsonElement(jsonObject)
     }
+
 
     override fun deserialize(decoder: Decoder): DailyJournalsMap {
         val jsonDecoder = decoder as JsonDecoder

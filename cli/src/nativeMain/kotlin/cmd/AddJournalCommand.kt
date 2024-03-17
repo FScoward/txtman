@@ -17,10 +17,13 @@ import kotlinx.io.buffered
 import kotlinx.io.files.Path
 import kotlinx.io.files.SystemFileSystem
 import kotlinx.io.readString
+import kotlinx.io.writeString
+import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
 class AddJournalCommand : CliktCommand(name = "addJournal") {
     val id by argument()
+    @OptIn(ExperimentalStdlibApi::class)
     override fun run() {
         val today = Clock.System.now().toLocalDateTime(TimeZone.UTC)
         val localDate: LocalDate = today.date
@@ -47,7 +50,14 @@ class AddJournalCommand : CliktCommand(name = "addJournal") {
         val x: Map<LocalDate, ImmutableSet<TaskID>> = journal.dailyJournalsMap.dailyJournals.plus(
             (localDate to existingTaskID.plus(targetTaskId).toImmutableSet())
         )
-        Journal(DailyJournalsMap(x))
+        val updatedJournal = Journal(DailyJournalsMap(x))
+
+        // JSONに保存する
+        val json = Json.encodeToString(updatedJournal)
+        val journalPath = Path("./journal.json")
+        SystemFileSystem.sink(journalPath, append = false).buffered().use { sink ->
+            sink.writeString(json)
+        }
 
         // 処理の完了をユーザーに通知します。
         echo("Journal updated for $today with task ID: $targetTaskId")
