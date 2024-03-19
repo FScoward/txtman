@@ -2,6 +2,7 @@ package com.github.fscoward.txtman.cli
 
 import com.github.fscoward.txtman.cli.model.DailyJournalsMap
 import com.github.fscoward.txtman.cli.model.DailyJournalsMapSerializer
+import kotlinx.datetime.LocalDate
 import kotlinx.io.buffered
 import kotlinx.io.files.Path
 import kotlinx.io.files.SystemFileSystem
@@ -27,4 +28,11 @@ data class Journal(
             }
         }
     }
+}
+
+/**
+ * 指定された日付のJournalを返す
+ * */
+fun Journal.filterBy(date: LocalDate): Journal {
+    return Journal(DailyJournalsMap(dailyJournalsMap.dailyJournals.filterKeys { it == date }))
 }
