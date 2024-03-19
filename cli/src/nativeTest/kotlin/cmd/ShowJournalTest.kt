@@ -2,7 +2,9 @@ package com.github.fscoward.txtman.cli.cmd
 
 import com.github.fscoward.txtman.cli.Journal
 import com.github.fscoward.txtman.cli.model.*
+import kotlinx.collections.immutable.PersistentSet
 import kotlinx.collections.immutable.persistentSetOf
+import kotlinx.collections.immutable.toPersistentSet
 import kotlinx.datetime.LocalDate
 import kotlin.experimental.ExperimentalNativeApi
 import kotlin.test.Test
@@ -18,19 +20,19 @@ class ShowJournalTest {
             Task("Task 2", priority = 2, status = TaskStatus.IN_PROGRESS, id = TaskID("task-002"))
         )
         val dailyJournalsMap = mapOf(
-            LocalDate.parse("2024-03-17") to persistentSetOf(TaskID("task-001"), TaskID("task-002"))
+            LocalDate.parse("2024-03-17") to taskList.map { t -> t.id }.toPersistentSet()
         )
         val journal = Journal(DailyJournalsMap(dailyJournalsMap))
 
         // ShowJournalのインスタンス生成とメソッド呼び出し
         val showJournal = ShowJournal()
-        val actualBulletList = showJournal.toBullet(journal)
+        val actualBulletList = showJournal.toBullet(journal, TaskList(taskList))
 
         // 期待される出力
         val expectedBulletList = """
             2024-03-17:
-              - task-001
-              - task-002
+              - Task 1, task-001, TODO
+              - Task 2, task-002, IN_PROGRESS
         """.trimIndent()
 
         // テストの検証
