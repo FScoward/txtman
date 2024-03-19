@@ -1,12 +1,8 @@
 package com.github.fscoward.txtman.cli.cmd
 
-import com.github.fscoward.txtman.cli.Journal
 import com.github.fscoward.txtman.cli.model.*
-import kotlinx.collections.immutable.PersistentSet
-import kotlinx.collections.immutable.persistentSetOf
 import kotlinx.collections.immutable.toPersistentSet
 import kotlinx.datetime.LocalDate
-import kotlin.experimental.ExperimentalNativeApi
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

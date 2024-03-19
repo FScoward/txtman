@@ -3,9 +3,8 @@ package com.github.fscoward.txtman.cli.cmd
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.parameters.options.convert
 import com.github.ajalt.clikt.parameters.options.option
-import com.github.fscoward.txtman.cli.Journal
+import com.github.fscoward.txtman.cli.model.Journal
 import com.github.fscoward.txtman.cli.model.TaskList
-import com.github.fscoward.txtman.cli.filterBy
 import kotlinx.datetime.LocalDate
 
 class ShowJournal : CliktCommand(name = "journal") {

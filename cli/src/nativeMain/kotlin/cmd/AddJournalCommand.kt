@@ -2,7 +2,7 @@ package com.github.fscoward.txtman.cli.cmd
 
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.parameters.arguments.argument
-import com.github.fscoward.txtman.cli.Journal
+import com.github.fscoward.txtman.cli.model.Journal
 import com.github.fscoward.txtman.cli.model.DailyJournalsMap
 import com.github.fscoward.txtman.cli.model.TaskID
 import com.github.fscoward.txtman.cli.model.TaskList
