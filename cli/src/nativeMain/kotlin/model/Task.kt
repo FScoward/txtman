@@ -29,13 +29,13 @@ data class Task(
     val createdDateTime: LocalDateTime = Clock.System.now().toLocalDateTime(
         TimeZone.UTC
     ),
+    val id: TaskID = TaskID(ULID.randomULID()),
     val children: List<Task> = listOf()
 ) {
     companion object {
         private val jsonFormatter = Json { encodeDefaults = true }
     }
 
-    val id: TaskID = TaskID(ULID.randomULID())
     fun toJson(): String {
         return jsonFormatter.encodeToString(this)
     }
