@@ -40,7 +40,7 @@ class ShowJournal : CliktCommand(name = "journal") {
             val date = entry.key
             val tasks = entry.value
             // 日付を表示
-            "${date.toString()}:\n" + tasks.joinToString(separator = "\n") { taskId ->
+            "$date:\n" + tasks.joinToString(separator = "\n") { taskId ->
                 // タスクIDをもとにタスクの詳細を取得
                 val task = TaskList.findTaskById(taskList.tasks, taskId)
                 // タスクの詳細が取得できればその情報を、できなければタスクIDのみを表示
